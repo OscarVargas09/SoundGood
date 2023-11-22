@@ -4,7 +4,6 @@ import com.soundgood.model.AuditionResult;
 import com.soundgood.service.impl.AuditionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 
@@ -30,7 +29,7 @@ public class AuditionController {
         return auditionService.getCorrectAnswersCount();
     }
 
-    @PostMapping("/reset-correct-answers-count")
+    @GetMapping("/reset-correct-answers-count")
     public void resetCorrectAnswersCount() {
         auditionService.resetCorrectAnswersCount();
     }
@@ -48,6 +47,26 @@ public class AuditionController {
     @GetMapping(value = "/audio-left/{numero}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public Resource getLeftAudio(@PathVariable int numero) {
         return auditionService.playAudioLeft(numero);
+    }
+
+    @PostMapping("/results-right-left")
+    public String resultsRightLeft(@RequestBody AuditionResult auditionResult) {
+        return auditionService.resultsRightLeft(auditionResult.getInputNumbers());
+    }
+
+    @GetMapping("/correct-answers-count-right")
+    public int getRightAnswersCount() {
+        return auditionService.getRightAnswersCount();
+    }
+
+    @GetMapping("/correct-answers-count-left")
+    public int getLeftAnswersCount() {
+        return auditionService.getLeftAnswersCount();
+    }
+
+    @GetMapping("/reset-correct-answers-count-right-left")
+    public void resetRightLeftAnswersCount() {
+        auditionService.resetRightOrLeftAnswersCount();
     }
 
 }

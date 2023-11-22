@@ -11,6 +11,9 @@ import org.springframework.core.io.Resource;
 public class AuditionServiceImpl implements AuditionService {
 
     private int correctAnswersCount = 0;
+    private int rightAnswersCount = 0;
+    private int leftAnswersCount = 0;
+
     public String submitResults(String inputNumbers) {
         if (inputNumbers != null && !inputNumbers.trim().isEmpty()) {
             boolean isCorrect = validateNumbers(inputNumbers);
@@ -144,4 +147,34 @@ public class AuditionServiceImpl implements AuditionService {
         String audioLeftPath = "static/audio/" + audioLeft + ".mp3";
         return new ClassPathResource(audioLeftPath);
     }
+
+    public String resultsRightLeft(String inputNumbers){
+        if (inputNumbers != null && !inputNumbers.trim().isEmpty()) {
+            if("derecho".equals(inputNumbers)){
+                rightAnswersCount++;
+                return "¡Correcto! El sonido ha sido reproducido por el odio derecho.";
+            } else if ("izquierdo".equals(inputNumbers)) {
+                leftAnswersCount++;
+                return "¡Correcto! El sonido ha sido reproducido por el odio izquierdo.";
+            } else {
+                return "¡Incorrecto! Has cometido un error.";
+            }
+        } else {
+            return "No hay datos de entrada para validar.";
+        }
+    }
+
+    public int getRightAnswersCount() {
+        return rightAnswersCount;
+    }
+
+    public void resetRightOrLeftAnswersCount() {
+        rightAnswersCount = 0;
+        leftAnswersCount = 0;
+    }
+
+    public int getLeftAnswersCount() {
+        return leftAnswersCount;
+    }
+
 }
